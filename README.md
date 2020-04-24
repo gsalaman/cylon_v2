@@ -60,5 +60,42 @@ This looks like the following:
 ```
 Which means that the real window index is the virtual index minus 7.  
 
+I'm gonna go with this option.
+
+## Loop
+The loop needs to:  
+* adjust "display delay" tiime, based on the parameter.
+* look for button presses and adjust the eye size
+* update the display, if it's time to do that.
+
+## Display Delay
+I'm gonna have this as a global.  I'll have two #defines for MAX_DISPLAY_DELAY and MIN_DISPLAY_DELAY.  The pot read will do a map and set the global.
+
+The update routines will check to see if enough time has passed since last update to do a display update...otherwise, we'll just return.
+
+## Display algorithm
+```
+Keep track of head eye position and direction...that's gonna be virtual position rather than real.
+We'll use a virtual "edge" calculated based on eye size to determine when to reverse the eye.
+
+If not enough time has passed since the last update, just return.
+If enough time has passed:
+  Reverse direction if necessary.
+  Move the eye head one left-or-right
+  Call our "display function"
+```
+### The display function
+Uses eye_head_virtual_position, direction, and eye-size to populate the real array.
+
+I'm gonna start a little brute force:
+```
+Fill the virtual array with our background color.
+Make a "streak" from our head eye postion to the lenght of the eye, depending on direction.
+Use the adafruit driver to display the "real window", based on our virtual window.
+If the eye is outside the bounds of our array, set the edge LED to our eye color.
+```
+
+## Eye size adjustments
+We'll need to debounce the button...I'll do that in software, and only count releases.
 
 
