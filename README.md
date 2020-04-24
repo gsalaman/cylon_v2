@@ -39,6 +39,26 @@ When the "eye head" hits an edge, it's gonna wait there until the rest of the "t
 5 5 5 5 1 2 3 4
 5 5 5 1 2 3 4 5
 ```
+## Eye motion design
+### Option 1:  "states of motion"
+In this design option, we have three states for eye motion:
+1) The eye is completly on the screen and moving either left or right.
+2) The eye is at an edge, and the tail is being absorbed
+3) We've reversed diretion, and the tail is being created.
+
+It may make sense to have a "left" and "right" state for all three of these, or a single "left"/"right" variable that these three use.  
+
+### Option 2:  virtual window
+In this case, we make the "virtual window" of the eye bigger than the actual 8 leds...big enough to contain the full tail on either side.  We only display the LEDs that are in our "real" window, but if the eye is off one side or another, we override that end pixel with the main eye color.
+
+In this option, the virtual window size is the size of the real window, plus two times our max eye size.  In our current requirements, it's 8+7+7 or 22.
+
+This looks like the following:
+```
+                     0  1  2  3  4  5  6  7                            <- Real window index
+0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22.   <- Virtual window index
+```
+Which means that the real window index is the virtual index minus 7.  
 
 
 
