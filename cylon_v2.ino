@@ -56,7 +56,7 @@ uint32_t virtual_window[VIRTUAL_WINDOW_SIZE];
 
 /* The cyclon eye parameters */
 int eye_head_pos=REAL_WINDOW_START_INDEX;  // this is the virutal window index
-int eye_size=4;
+int eye_size=3;
 
 typedef enum
 {
@@ -368,7 +368,7 @@ void update_display(void)
   
   /* do we need to reverse direction? */
   if ((current_eye_dir == DIR_RIGHT) && 
-      (eye_head_pos == REAL_WINDOW_END_INDEX + eye_size))
+      (eye_head_pos >= REAL_WINDOW_END_INDEX + eye_size))
   {
     current_eye_dir = DIR_LEFT;
 
@@ -378,7 +378,7 @@ void update_display(void)
     eye_head_pos = REAL_WINDOW_END_INDEX;
   }
   else if ((current_eye_dir == DIR_LEFT) &&
-           (eye_head_pos == REAL_WINDOW_START_INDEX - eye_size))
+           (eye_head_pos <= REAL_WINDOW_START_INDEX - eye_size))
   {
     current_eye_dir = DIR_RIGHT;
 
@@ -413,6 +413,34 @@ void set_display_delay( void )
    
 }
 
+
+void update_eye_size(void)
+{
+
+  
+  /* check for button presses */
+  if (buttonPressed())
+  {
+    #ifdef PLATFORM_UNO
+    Serial.print("Button pressed...current size: ");
+    Serial.println(eye_size);
+    #endif
+    
+    /* If we're already at the biggest supported eye size, roll over to 
+     *  an eye-size of 1
+     */
+    if (eye_size == MAX_EYE_SIZE)
+    {
+      eye_size = 1;
+    }
+    else
+    {
+      /* otherwise, just increment the eye size */
+      eye_size++;
+    } 
+  }  /* end of if button_pressed */
+}
+
 void loop()
 {
   
@@ -423,6 +451,6 @@ void loop()
   set_display_delay();
   
   /* check button for eye size updates */
-  
+  update_eye_size();
   
 }
