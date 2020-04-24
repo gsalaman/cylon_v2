@@ -67,7 +67,7 @@ I'm gonna go with this option.
 
 ## Loop
 The loop needs to:  
-* adjust "display delay" tiime, based on the parameter.
+* adjust "display delay" tiime, based on the potentiometer.
 * look for button presses and adjust the eye size
 * update the display, if it's time to do that.
 
