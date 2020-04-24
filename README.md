@@ -39,6 +39,9 @@ When the "eye head" hits an edge, it's gonna wait there until the rest of the "t
 5 5 5 5 1 2 3 4
 5 5 5 1 2 3 4 5
 ```
+
+Finally, I'm going to want to build this code on both UNO (with serial debugs) and TINY.  Use #defines (preferablly the ones arduino sets) to switch between behaviors.
+
 ## Eye motion design
 ### Option 1:  "states of motion"
 In this design option, we have three states for eye motion:
