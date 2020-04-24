@@ -356,10 +356,12 @@ void update_display(void)
 
   last_update_time_ms = curr_time_ms;
 
+  #ifdef PLATFORM_UNO
   Serial.print("eye pos: ");
   Serial.print(eye_head_pos);
   Serial.print(", dir= ");
   Serial.println(current_eye_dir);
+  #endif
   
   /* do we need to reverse direction? */
   if ((current_eye_dir == DIR_RIGHT) && 
