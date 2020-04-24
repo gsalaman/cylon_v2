@@ -35,7 +35,10 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, LED_PIN, NEO_GRB+NEO_KHZ
 #define COLOR_BLACK   0
 #define COLOR_WHITE   0xFFFFFF
 
+#define MAX_EYE_SIZE (NUMPIXELS - 1)
 
+#define VIRTUAL_WINDOW_SIZE (NUMPIXELS+2*MAX_EYE_SIZE)
+uint32_t virtual_window[VIRTUAL_WINDOW_SIZE];
 
 /*================================================================================
  * fillAll
@@ -179,6 +182,27 @@ bool buttonPressed( void )
   }  
 }
 
+/*=================================================
+ * display_pixels
+ * 
+ * This function displays the "real window" pixels on the 
+ * tiny stick.
+ *
+ * See README for description of real vs virtual window.
+ */
+#define REAL_WINDOW_START_INDEX MAX_EYE_SIZE 
+#define REAL_WINDOW_END_INDEX (MAX_EYE_SIZE + NUMPIXELS)
+void display_pixels( void )
+{
+  int i;
+
+  for (i = 0; i < NUMPIXELS; i++)
+  {
+    pixels.setPixelColor(i, virtual_window[i+REAL_WINDOW_START_INDEX]); 
+  }
+  pixels.show();
+}
+
 void setup()
 {
     int i;
@@ -201,10 +225,13 @@ void setup()
     #ifdef PLATFORM_UNO
     Serial.println("initialized");
     #endif
+
+    /* a little debug....gonna fill our entire virtual array with a gradient. */
+    fillGradient(virtual_window, 0, COLOR_RED, VIRTUAL_WINDOW_SIZE -1, COLOR_BLUE);
     
 }
 
 void loop()
 {
-  
+  display_pixels();
 }
