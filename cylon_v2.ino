@@ -69,6 +69,9 @@ dir_type current_eye_dir=DIR_RIGHT;
 uint32_t eye_color=COLOR_RED;
 uint32_t background_color=COLOR_BLUE;
 
+#define DISPLAY_MIN_DELAY 10
+#define DISPLAY_MAX_DELAY 1000
+
 uint32_t display_delay_ms=100;
 
 
@@ -399,6 +402,17 @@ void update_display(void)
   show_eye();
 }
 
+void set_display_delay( void )
+{
+  int pot_val;
+
+  pot_val = analogRead(POT_PIN);
+
+  display_delay_ms = map(pot_val, 0, 1023, DISPLAY_MIN_DELAY, DISPLAY_MAX_DELAY);
+  display_delay_ms = constrain(display_delay_ms, DISPLAY_MIN_DELAY, DISPLAY_MAX_DELAY);
+   
+}
+
 void loop()
 {
   
@@ -406,7 +420,8 @@ void loop()
   update_display();
 
   /* update pot */
-
+  set_display_delay();
+  
   /* check button for eye size updates */
   
   
