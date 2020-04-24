@@ -99,6 +99,8 @@ If the eye is outside the bounds of our array, set the edge LED to our eye color
 ```
 
 ## Eye size adjustments
-We'll need to debounce the button...I'll do that in software, and only count releases.
+We'll need to debounce the button...I'll do that in software, and only count releases.  This will set a global for eye size that this display functions will use.  
+
+First cut won't do a "re-init" of our eye...it'll just grow it from the last state we were in...but that may need to be revisited.
 
 
