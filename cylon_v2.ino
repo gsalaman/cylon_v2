@@ -50,6 +50,79 @@ void fillAll( uint32_t color )
   }
 }
 
+/*========================================================================
+ * fillGradient
+ *
+ * This function fills an array with a gradient from start color to end color.
+ */
+void fillGradient(uint32_t *strip, int start_index, uint32_t start_color, int end_index, uint32_t end_color)
+{
+  int i;
+  
+  uint32_t start_red;
+  uint32_t end_red;
+  uint32_t start_green;
+  uint32_t end_green;
+  uint32_t start_blue;
+  uint32_t end_blue;
+  uint32_t composite_color;
+
+  int red_step;
+  int green_step;
+  int blue_step;
+
+  int num_steps = end_index - start_index;
+
+  start_red = start_color & 0xFF0000;
+  start_red = start_red >> 16;
+  start_green = start_color & 0x00FF00;
+  start_green = start_green >> 8;
+  start_blue = start_color & 0x0000FF;
+
+  end_red = end_color & 0xFF0000;
+  end_red = end_red >> 16;
+  end_green = end_color & 0x00FF00;
+  end_green = end_green >> 8;
+  end_blue = end_color & 0x0000FF;
+
+  red_step = end_red - start_red;
+  green_step = end_green - start_green;
+  blue_step = end_blue - start_blue;
+
+  #if 0
+  Serial.print("Num steps: ");
+  Serial.println(num_steps);
+  Serial.print("r/g/b step: ");
+  Serial.print(red_step);
+  Serial.print(" ");
+  Serial.print(green_step);
+  Serial.print(" ");
+  Serial.println(blue_step);
+  #endif
+
+  
+  for (i = 0; i <= num_steps; i++)
+  {
+    #if 0
+    Serial.print("i=");
+    Serial.print(i);
+    Serial.print(", r:");
+    Serial.print(start_red+ ((i*red_step)/num_steps));
+    Serial.print(" b:");
+    Serial.println(start_blue + ((i*blue_step)/num_steps));
+    #endif
+    
+    composite_color = 
+      (start_blue + ((i*blue_step)/num_steps));
+    composite_color |=
+      (start_green + ((i*green_step)/num_steps)) << 8;
+    composite_color |= 
+      (start_red + ((i*red_step)/num_steps)) << 16;
+
+    strip[start_index + i] = composite_color;
+  }
+
+}
 
 /*================================================
  * Debounce function.
