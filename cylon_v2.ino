@@ -52,7 +52,7 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, LED_PIN, NEO_GRB+NEO_KHZ
 uint32_t virtual_window[VIRTUAL_WINDOW_SIZE];
 
 #define REAL_WINDOW_START_INDEX MAX_EYE_SIZE 
-#define REAL_WINDOW_END_INDEX (REAL_WINDOW_START_INDEX + NUMPIXELS)
+#define REAL_WINDOW_END_INDEX (REAL_WINDOW_START_INDEX + NUMPIXELS - 1)
 
 /* The cyclon eye parameters */
 int eye_head_pos=REAL_WINDOW_START_INDEX;  // this is the virutal window index
@@ -69,7 +69,7 @@ dir_type current_eye_dir=DIR_RIGHT;
 uint32_t eye_color=COLOR_RED;
 uint32_t background_color=COLOR_BLUE;
 
-uint32_t display_delay_ms=1000;
+uint32_t display_delay_ms=100;
 
 
 
@@ -366,11 +366,21 @@ void update_display(void)
       (eye_head_pos == REAL_WINDOW_END_INDEX + eye_size))
   {
     current_eye_dir = DIR_LEFT;
+
+    /* because our head pos is far right in virtual window, we need to reset
+     *  it here the the right edge.
+     */
+    eye_head_pos = REAL_WINDOW_END_INDEX;
   }
   else if ((current_eye_dir == DIR_LEFT) &&
            (eye_head_pos == REAL_WINDOW_START_INDEX - eye_size))
   {
     current_eye_dir = DIR_RIGHT;
+
+    /* because our head pos is far left in virtual window, we need to reset
+     *  it here to the left edge.
+     */
+    eye_head_pos = REAL_WINDOW_START_INDEX;
   }
 
   /* move the eye one slot in the desired direction */
