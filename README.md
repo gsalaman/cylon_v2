@@ -23,27 +23,9 @@ Background color start compile-time set.
 
 Eye length goes from eye color (head) to background color via a color interpolation.  Reuse this from a prior project...and package it up so that others can also use it.  Start with it in a .h/.cpp file in the same folder if that works...
 
-When the "eye head" hits an edge, it's gonna walk back over the existing "tail", and the "tail" will also wrap around.  Here's a text example, where I'm using "numbers" as the various eye colors.  The head eye color is "1", the next "2", the next "3", the next "4", and background color is "5".  This is a Eye of length 5.  I'm listing each iteration on a line, with 8 numbers representing the LED spots.
+When the "eye head" hits an edge, it's gonna wait there until the rest of the "tail" gets aborbed into the edge.  Here's a text example, where I'm using "numbers" as the various eye colors.  The head eye color is "1", the next "2", the next "3", the next "4", and background color is "5".  This is a Eye of length 5.  I'm listing each iteration on a line, with 8 numbers representing the LED spots.
 
-```
-Start condition:
-5 4 3 2 1 5 5 5
-5 5 4 3 2 1 5 5
-5 5 5 4 3 2 1 5
-5 5 5 5 4 3 2 1
-And here's where it gets tricky.
-If I put it on two lines, it'd look like this:
-5 5 5 5 5 4 3 2
-            1
-But the "tip" of the eye should be in front of the rest.  So the 1 overwrites the 3, making it look like:
-5 5 5 5 5 4 1 2
 
-Next iterations:
-5 5 5 5 5 1 2 3
-5 5 5 5 1 2 3 4
-```
-
-Hmmm.  The other way we coould do this is have the whole "tail" get abosrbed into the head.  Iterations for that one would look like this:
 ```
 5 4 3 2 1 5 5 5
 5 5 4 3 2 1 5 5
@@ -56,7 +38,7 @@ Hmmm.  The other way we coould do this is have the whole "tail" get abosrbed int
 5 5 5 5 5 1 2 3
 5 5 5 5 1 2 3 4
 5 5 5 1 2 3 4 5
-
+```
 
 
 
