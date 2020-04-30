@@ -4,6 +4,8 @@
  */
 #if defined(__AVR_ATmega328P__)
 #define PLATFORM_UNO
+#elif defined(__AVR_ATtiny85__)
+#define PLATFORM_TINY
 #else
 #error "PLATFORM UNSUPPORTED"
 #endif
@@ -14,10 +16,10 @@
 #define LED_PIN    3
 
 // Platform specific:  button pin and POT pin.
-#ifdef PLATFORM_UNO
+#if defined(PLATFORM_UNO)
 #define BUTTON_PIN 8
 #define POT_PIN    A0
-#elif PLATFORM_TINY
+#elif defined(PLATFORM_TINY)
 #define BUTTON_PIN 0      
 #define POT_PIN    2 
 #endif
